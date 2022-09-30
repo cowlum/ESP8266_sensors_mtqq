@@ -8,9 +8,9 @@ Sends basic data to pub/sub data mtqq.
 Displays basic information via html web page.
 
 
+### Hardware
 
-| Hardware            | 
-| ----------------- | 
+
 | NodeMCU (ESP8266) | 
 | BMP280 |
 
