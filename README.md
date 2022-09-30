@@ -5,6 +5,8 @@ Quick hack for temp sensors around the home
 
 Sends basic data to pub/sub data mtqq.
 
+![Alt text](/reademe_image/nodrered.jpg "nodered")
+
 Displays basic information via html web page.
 
 
