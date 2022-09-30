@@ -9,7 +9,7 @@ Sends basic data to pub/sub data mtqq.
   src="https://github.com/cowlum/esp8266_sensors_mtqq/blob/master/readme_image/nodered.jpg"
   alt="Alt text"
   title="Optional title"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 100px">
 
 Displays basic information via html web page.
 
