@@ -1,4 +1,19 @@
-# esp8266_sensors_mtqq
+
+# Tempreture Sensor. 
+
 Quick hack for temp sensors around the home
-Sends basic data to mtqq pub/sub
-displays basic temp data as a webpage via IP.
+
+Sends basic data to pub/sub data via mtqq.
+
+Displays basic information via html
+
+
+
+| hardware            | 
+| ----------------- | 
+| esp8266 / nodemcu | 
+| BMP280 | 
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
