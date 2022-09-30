@@ -3,9 +3,9 @@
 
 Quick hack for temp sensors around the home
 
-Sends basic data to pub/sub data via mtqq.
+Sends basic data to pub/sub data mtqq.
 
-Displays basic information via html
+Displays basic information via html web page.
 
 
 
