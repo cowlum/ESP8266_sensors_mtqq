@@ -9,7 +9,7 @@ Displays basic information via html web page.
 
 
 
-| hardware            | 
+| Hardware            | 
 | ----------------- | 
 | NodeMCU (ESP8266) | 
 | BMP280 |
