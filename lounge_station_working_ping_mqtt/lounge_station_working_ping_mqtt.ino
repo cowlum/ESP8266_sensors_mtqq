@@ -33,7 +33,7 @@ long systemUpTimeHr;
 long systemUpTimeDy;
 /*Put your SSID & Password*/
 const char* ssid = "LittleFish";  // Enter SSID here
-const char* password = "joinlittlefishathome22!@#";  //Enter Password here
+const char* password = "";  //Enter Password here
 
 
 WiFiClient lounge;
