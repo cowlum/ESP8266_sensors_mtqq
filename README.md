@@ -5,7 +5,11 @@ Quick hack for temp sensors around the home
 
 Sends basic data to pub/sub data mtqq.
 
-![Alt text](/reademe_image/nodrered.jpg "nodered")
+<img
+  src="https://github.com/cowlum/esp8266_sensors_mtqq/blob/master/readme_image/nodered.jpg"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 Displays basic information via html web page.
 
