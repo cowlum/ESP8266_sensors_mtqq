@@ -1,5 +1,5 @@
 
-##Round the Home Tempreture Sensor(s). 
+## Round the Home Tempreture Sensor(s). 
 
 Quick hack for temp sensors around the home
 
@@ -11,8 +11,19 @@ Displays basic information via html
 
 | hardware            | 
 | ----------------- | 
-| esp8266 / nodemcu | 
-| BMP280 | 
+| NodeMCU (ESP8266) | 
+| BMP280 |
+
+## Wiring
+
+| BMP280 | NodeMCU |
+| ------ | ------ |
+| VCC | VCC or 3.3v |
+| GND | GND |
+| SCL | D2 |
+| SDA | D1|
+
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
