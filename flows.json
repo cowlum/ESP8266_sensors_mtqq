@@ -1,0 +1,1011 @@
+[
+    {
+        "id": "35ad4fe4.069a3",
+        "type": "subflow",
+        "name": "SaveChart",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "f4457c36.28ce1"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 820,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "cf553dbd.50f9a",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "db9cbd5c.fb547",
+        "type": "file",
+        "z": "35ad4fe4.069a3",
+        "name": "",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "x": 690,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f7f46486.9881a8",
+        "type": "file in",
+        "z": "35ad4fe4.069a3",
+        "name": "",
+        "filename": "",
+        "format": "utf8",
+        "sendError": true,
+        "allProps": false,
+        "x": 530,
+        "y": 80,
+        "wires": [
+            [
+                "cf553dbd.50f9a"
+            ]
+        ]
+    },
+    {
+        "id": "ac2168dc.ee28f8",
+        "type": "json",
+        "z": "35ad4fe4.069a3",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 530,
+        "y": 40,
+        "wires": [
+            [
+                "db9cbd5c.fb547"
+            ]
+        ]
+    },
+    {
+        "id": "cf553dbd.50f9a",
+        "type": "json",
+        "z": "35ad4fe4.069a3",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 690,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f4457c36.28ce1",
+        "type": "function",
+        "z": "35ad4fe4.069a3",
+        "name": "LoadSave",
+        "func": "var strSafe=msg.topic;\nif(strSafe)\n{\n    strSafe=strSafe.replace(/[^a-z0-9]/gi, '_').toLowerCase();\n    var loaded=context.get(strSafe)||0;\n    msg.filename =\"/home/pi/charts/\"+strSafe+\".dat\";\n    //node.warn(loaded);\n    if(0===loaded)\n    {\n        //load chart!! \n        msg.payload=\"load\";\n        context.set(strSafe,1);\n        \n        //node.warn(\"Loading \" +strSafe);\n    }\n    else\n    {\n        //node.warn(\"Writing \" +strSafe);\n    }\n    return msg;    \n}\nreturn null;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 60,
+        "wires": [
+            [
+                "99a5d40b.95d618"
+            ]
+        ]
+    },
+    {
+        "id": "99a5d40b.95d618",
+        "type": "switch",
+        "z": "35ad4fe4.069a3",
+        "name": "Load data",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "load",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "load",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 380,
+        "y": 60,
+        "wires": [
+            [
+                "ac2168dc.ee28f8"
+            ],
+            [
+                "f7f46486.9881a8"
+            ]
+        ]
+    },
+    {
+        "id": "46c6be2e6a046f32",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9e58624.7faaba",
+        "type": "mqtt out",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "topic": "esp32/output",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 650,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "abf7079a.653be8",
+        "type": "mqtt in",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "topic": "lounge/temperature",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "cc79021b.9a751",
+                "915f83ebdc1d1689",
+                "c91a3e3dc0c925b7",
+                "5d7c4a3a57eff92e"
+            ]
+        ]
+    },
+    {
+        "id": "83cf37cf.c76988",
+        "type": "ui_switch",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "label": "Output",
+        "tooltip": "",
+        "group": "61285987.c20328",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 490,
+        "y": 20,
+        "wires": [
+            [
+                "9e58624.7faaba"
+            ]
+        ]
+    },
+    {
+        "id": "cc79021b.9a751",
+        "type": "debug",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 110,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "4aecba01.78ce64",
+        "type": "mqtt in",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "topic": "lounge/pressure",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 100,
+        "y": 80,
+        "wires": [
+            [
+                "22efa7b7.544a28",
+                "6ac1e9dc52b3511f"
+            ]
+        ]
+    },
+    {
+        "id": "22efa7b7.544a28",
+        "type": "debug",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 110,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "f227d5ac8624fa69",
+        "type": "mqtt in",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "topic": "aidansroom/temperature",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 760,
+        "wires": [
+            [
+                "650649f6d2c234d3",
+                "588ccc63a8d5561a",
+                "3856b2079137c523",
+                "1559f2b160c9c4af"
+            ]
+        ]
+    },
+    {
+        "id": "650649f6d2c234d3",
+        "type": "debug",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 130,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "4da5fe9dd16ab0a9",
+        "type": "mqtt in",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "topic": "aidansroom/humidity",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 920,
+        "wires": [
+            [
+                "fa23f744480f6a23",
+                "10f55cd60b1bb53d"
+            ]
+        ]
+    },
+    {
+        "id": "fa23f744480f6a23",
+        "type": "debug",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 150,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "588ccc63a8d5561a",
+        "type": "ui_text",
+        "z": "46c6be2e6a046f32",
+        "group": "61285987.c20328",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Aidans Room",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 420,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "915f83ebdc1d1689",
+        "type": "ui_text",
+        "z": "46c6be2e6a046f32",
+        "group": "61285987.c20328",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Lounge",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 400,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "3856b2079137c523",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Aidans Room Temp 2 days",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 460,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "76b288254f322d3b",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "label": "Aidans Room Humidity 2 weeks",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "1000",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1250,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c24a3aa78c8312af",
+        "type": "mqtt in",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "topic": "outside/temperature",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 600,
+        "wires": [
+            [
+                "bde1bdeb49aceb39",
+                "6a10f9a205be54f4",
+                "3e5d5008bdc04437",
+                "657828326ed8f0d8",
+                "dd7e0743ce95221f"
+            ]
+        ]
+    },
+    {
+        "id": "bde1bdeb49aceb39",
+        "type": "debug",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 170,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "704a8cc044675cc0",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "Pressure (lounge) 2 weeks",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1220,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b1f036950df2a65f",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "label": "Temperatures 2 weeks",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1200,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a10f9a205be54f4",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Outside Temp 2 days",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 440,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c91a3e3dc0c925b7",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "lounge temp 2 days",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 450,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e5d5008bdc04437",
+        "type": "ui_text",
+        "z": "46c6be2e6a046f32",
+        "group": "61285987.c20328",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "outside temp",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 410,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "10f55cd60b1bb53d",
+        "type": "delay",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 840,
+        "y": 920,
+        "wires": [
+            [
+                "76b288254f322d3b"
+            ]
+        ]
+    },
+    {
+        "id": "1559f2b160c9c4af",
+        "type": "delay",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 860,
+        "y": 440,
+        "wires": [
+            [
+                "b1f036950df2a65f"
+            ]
+        ]
+    },
+    {
+        "id": "5d7c4a3a57eff92e",
+        "type": "delay",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 860,
+        "y": 280,
+        "wires": [
+            [
+                "b1f036950df2a65f"
+            ]
+        ]
+    },
+    {
+        "id": "657828326ed8f0d8",
+        "type": "delay",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 860,
+        "y": 360,
+        "wires": [
+            [
+                "b1f036950df2a65f"
+            ]
+        ]
+    },
+    {
+        "id": "6ac1e9dc52b3511f",
+        "type": "delay",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 860,
+        "y": 100,
+        "wires": [
+            [
+                "704a8cc044675cc0"
+            ]
+        ]
+    },
+    {
+        "id": "dd7e0743ce95221f",
+        "type": "smooth",
+        "z": "46c6be2e6a046f32",
+        "name": "Smooth mean",
+        "property": "payload",
+        "action": "mean",
+        "count": "288",
+        "round": "",
+        "mult": "single",
+        "reduce": false,
+        "x": 720,
+        "y": 640,
+        "wires": [
+            [
+                "9bd05cf3fa25c8aa"
+            ]
+        ]
+    },
+    {
+        "id": "9bd05cf3fa25c8aa",
+        "type": "delay",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "1",
+        "timeoutUnits": "days",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "day",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 640,
+        "wires": [
+            [
+                "da76f1ff10f119cd"
+            ]
+        ]
+    },
+    {
+        "id": "358d87f17befd136",
+        "type": "file",
+        "z": "46c6be2e6a046f32",
+        "name": "/home/pi/nodereddata/yearlytempdata",
+        "filename": "yearlytempdata",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1550,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "da76f1ff10f119cd",
+        "type": "ui_chart",
+        "z": "46c6be2e6a046f32",
+        "name": "",
+        "group": "61285987.c20328",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "label": "Daily Average 52 Weeks",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "52",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1210,
+        "y": 640,
+        "wires": [
+            [
+                "358d87f17befd136",
+                "c7470e6b6224a985"
+            ]
+        ]
+    },
+    {
+        "id": "c7470e6b6224a985",
+        "type": "subflow:35ad4fe4.069a3",
+        "z": "46c6be2e6a046f32",
+        "name": "daily_average_save",
+        "x": 1460,
+        "y": 700,
+        "wires": [
+            [
+                "da76f1ff10f119cd"
+            ]
+        ]
+    },
+    {
+        "id": "10e78a89.5b4fd5",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "0.0.0.0",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "61285987.c20328",
+        "type": "ui_group",
+        "name": "Main",
+        "tab": "e7c46d5e.a1283",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false
+    },
+    {
+        "id": "e7c46d5e.a1283",
+        "type": "ui_tab",
+        "name": "Inside Weather",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
